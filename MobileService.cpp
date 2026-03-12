@@ -4,55 +4,86 @@ using namespace std;
 
 int main()
 {
-    int units;
-    double price = 199.00;
-    double discountPercent = 0.00;
-    int discountLevel = 0;
+   
+    const double PLAN_A_PRICE = 39.99;
+    const double PLAN_B_PRICE = 59.99;
+    const double PLAN_C_PRICE = 79.99;
 
-    cout << "Enter the number of units purchased: ";
-    cin >> units;
+    const double PLAN_A_DATA = 2.0;
+    const double PLAN_B_DATA = 8.0;
 
-    if (units >= 10 && units <= 19)
+    const double ADDITIONAL_COST_PER_GB = 8.0;
+
+    string name;
+    char plan;
+    double GB_used;
+    double costA, costB, costC;
+
+    cout << "Enter your name: ";
+    getline(cin, name);
+
+    cout << "Enter your plan (A, B, or C): ";
+    cin >> plan; 
+
+    cout << "Enter number of gigabytes used: ";
+    cin >> GB_used;
+
+    costA = PLAN_A_PRICE;
+    if (GB_used > PLAN_A_DATA)
     {
-        discountLevel = 1;
-    }
-    // changed level 2 to be between 20 and 49 units
-    // because it doesn't make sense for units between 40
-    // and 50 to have no discount :) 
-    else if (units >= 20 && units <= 49)
-    {
-        discountLevel = 2;
-    }
-    else if (units >= 50 && units <= 99)
-    {
-        discountLevel = 3;
-    }
-    else if (units >= 100)
-    {
-        discountLevel = 4;
+        costA += (GB_used - PLAN_A_DATA) * ADDITIONAL_COST_PER_GB;
     }
 
-    switch (discountLevel)
+    costB = PLAN_B_PRICE;
+    if (GB_used > PLAN_B_DATA)
     {
-        case 1:
-            discountPercent = 0.20;
+        costB += (GB_used - PLAN_B_DATA) * ADDITIONAL_COST_PER_GB;
+    }
+
+    costC = PLAN_C_PRICE;
+
+    switch (plan)
+    {
+        case 'A':
+        case 'a':
+            cout << "Customer: " << name << endl;
+            cout << "Plan: A" << endl;
+            cout << "Total amount due: $" << fixed << setprecision(2) << costA << endl;
+
+            if (costA > costB)
+            {
+                cout << "You would save $" << fixed << setprecision(2) << (costA - costB) << " by switching to Plan B." << endl;
+            }
+
+            if (costA > costC)
+            {
+                cout << "You would save $" << fixed << setprecision(2) << (costA - costC) << " by switching to Plan C." << endl;
+            }
             break;
-        case 2:
-            discountPercent = 0.30;
+
+        case 'B':
+        case 'b':
+            cout << "Customer: " << name << endl;
+            cout << "Plan: B" << endl;
+            cout << "Total amount due: $" << fixed << setprecision(2) << costB << endl;
+
+            if (costB > costC)
+            {
+                cout << "You would save $" << fixed << setprecision(2) << (costB - costC) << " by switching to Plan C." << endl;
+            }
             break;
-        case 3:
-            discountPercent = 0.40;
-            break;
-        case 4:
-            discountPercent = 0.50;
+
+        case 'C':
+        case 'c': 
+            cout << "Customer: " << name << endl;
+            cout << "Plan: C" << endl;
+            cout << "Total amount due: $" << fixed << setprecision(2) << costC << endl;
             break;
         default:
-            discountPercent = 0.00;
+            cout << "Invalid plan selection." << endl;
     }
-    
-    double totalCost = units * price * (1 - discountPercent);
-    cout << "Total cost: $" << fixed << setprecision(2) << totalCost << endl;
 
     return 0;
-
 }
+
+
